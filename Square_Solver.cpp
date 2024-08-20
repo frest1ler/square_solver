@@ -2,17 +2,35 @@
 #include <math.h>
 #include <stdlib.h>
 #include <assert.h>
+
 const int INFINITY_ROOTS = -1;
 const int NO_ROOTS = 0;
-int Data_Entry(double* a, double* b, double* c);
-int Square_Solver(double a, double b, double c, double x1, double x2);
+
+int data_entry(double* a, double* b, double* c);
+int square_solver(double a, double b, double c, double* x1, double* x2, int* nRoots); //TODO
+int linear_solver( double b, double c, double* x1, double* x2, int* nRoots);
+int data_output( int nRoots, double x1, double x2);
+
 int main()
 {
     double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
-    Data_Entry( &a, &b, &c );
-    Square_Solver( a, b, c, x1, x2);
-}
-int Data_Entry(double* a, double* b, double* c)
+    int nRoots; //TODO
+
+    data_entry( &a, &b, &c );
+
+    if ( a != 0 )
+    {
+        square_solver( a, b, c, &x1, &x2, &nRoots);
+    }
+    else
+    {
+        linear_solver( b, c, &x1, &x2, &nRoots);
+    }
+
+    data_output( nRoots, x1, x2);
+} //TODO
+
+int data_entry(double* a, double* b, double* c)
 {
     printf("a=");
     scanf("%lg",a);
@@ -23,48 +41,30 @@ int Data_Entry(double* a, double* b, double* c)
     printf("c=");
     scanf("%lg",c);
     printf("\n"); //input a,b,c
-    assert(isfinite(*a));
-    assert(isfinite(*b));
-    assert(isfinite(*c));
 }
-int Square_Solver(double a, double b, double c, double x1, double x2)
+
+int square_solver(double a, double b, double c, double* x1, double* x2, int* nRoots)
 {
-    int nRoots;
-    double d;
-    double sqrt_d;
-    if ( a == 0 )
+    double d = NAN, sqrt_d = NAN;
+    d = b * b - 4 * a * c;
+    if ( d < 0 )
+    *nRoots = NO_ROOTS;
+    if ( d == 0 )
     {
-        if ( b == 0)
-        {
-            if ( c == 0)
-                nRoots = INFINITY_ROOTS;
-            else
-                nRoots = NO_ROOTS;
-        }
-        else // ( b != 0 )
-        {
-            nRoots = 1;
-            x1 = x2 = -c / b;
-        }
+        *nRoots = 1;
+        *x1 = *x2 = -b / (2 * a);
     }
-    else // ( a != 0)
+    if ( d > 0 )
     {
-        d = b * b - 4 * a * c;
-        if ( d < 0 )
-        nRoots = NO_ROOTS;
-        if ( d == 0 )
-        {
-            nRoots = 1;
-            x1 = x2 = -b / (2 * a);
-        }
-        if ( d > 0 )
-        {
-            nRoots = 2;
-            sqrt_d = sqrt ( d );
-            x1 = ( -b + sqrt_d ) / ( 2 * a );
-            x2 = ( -b - sqrt_d ) / ( 2 * a );
-        }
+        *nRoots = 2;
+        sqrt_d = sqrt ( d );
+        *x1 = ( -b + sqrt_d ) / ( 2 * a );
+        *x2 = ( -b - sqrt_d ) / ( 2 * a );
     }
+}
+
+int data_output( int nRoots, double x1, double x2)
+{
     switch ( nRoots )
     {
         case NO_ROOTS :
@@ -92,5 +92,26 @@ int Square_Solver(double a, double b, double c, double x1, double x2)
             printf("ERROR");
             break;
         }
+    }
+}
+
+int linear_solver( double b, double c, double* x1, double* x2, int* nRoots)
+{
+
+    if ( b == 0)
+    {
+        if ( c == 0)
+        {
+            *nRoots = INFINITY_ROOTS;
+        }
+        else
+        {
+            *nRoots = NO_ROOTS;
+        }
+    }
+    else // ( b != 0 )
+    {
+        *nRoots = 1;
+        *x1 = *x2 = -c / b;
     }
 }
