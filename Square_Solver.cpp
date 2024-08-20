@@ -7,14 +7,14 @@ const int INFINITY_ROOTS = -1;
 const int NO_ROOTS = 0;
 
 int data_entry(double* a, double* b, double* c);
-int square_solver(double a, double b, double c, double* x1, double* x2, int* nRoots); //TODO
+int square_solver(double a, double b, double c, double* x1, double* x2, int* nRoots);
 int linear_solver( double b, double c, double* x1, double* x2, int* nRoots);
 int data_output( int nRoots, double x1, double x2);
 
 int main()
 {
     double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
-    int nRoots; //TODO
+    int nRoots = 0;
 
     data_entry( &a, &b, &c );
 
@@ -28,7 +28,7 @@ int main()
     }
 
     data_output( nRoots, x1, x2);
-} //TODO
+}
 
 int data_entry(double* a, double* b, double* c)
 {
