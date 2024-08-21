@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
-const int INFINITY_ROOTS = -1;
-const int NO_ROOTS = 0;
-const int ONE_ROOTS = 1;
-const int TWO_ROOTS = 2;
-const double EPSILON = 1e-9;
+const int    INFINITY_ROOTS = -1;
+const int    NO_ROOTS       =  0;
+const int    ONE_ROOTS      =  1;
+const int    TWO_ROOTS      =  2;            //TODO
+const double EPSILON        =  1e-9;
 
 int data_entry(double* a, double* b, double* c);
 int square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots);
@@ -30,7 +30,6 @@ int main()
     {
         linear_solver(b, c, &x1, &x2, &number_roots);
     }
-
     data_output(number_roots, x1, x2);
 }
 
@@ -48,39 +47,40 @@ int data_entry(double* a, double* b, double* c)
     scanf("%lg",c);
 
     printf("\n"); //input a,b,c
-    assert(std::isfinite(*a));
-    assert(std::isfinite(*b));
-    assert(std::isfinite(*c));
+    assert(isfinite(*a));//TODO
+    assert(isfinite(*b));
+    assert(isfinite(*c));
 }
 
 int square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots)
 {
-    if (compare_with_zero(b) == 0 && compare_with_zero(c) == 0)
+    if (compare_with_zero(b) == 0 && compare_with_zero(c) == 0)//TODO check is NULL x1, x2 - adress
     {
         *x1 = *x2 = 0;
         *number_roots = ONE_ROOTS;
     }
     else
     { // compare_with_zero(b) != 0 || compare_with_zero(c) != 0
-        double discr = NAN;
+        double discriminant = NAN, sqrt_discriminant = NAN;
 
-        discr = b * b - 4 * a * c;
+        discriminant = b * b - 4 * a * c;
 
-        if (discr < 0)
+        if (compare_with_zero(discriminant) == -1)
         {
             *number_roots = NO_ROOTS;
         }
-        if (discr == 0)
+        if (compare_with_zero(discriminant) == 0)
         {
             *number_roots = ONE_ROOTS;
             *x1 = *x2 = -b / (2 * a);
         }
 
-        if (discr > 0)
+        if (compare_with_zero(discriminant) == 1)
         {
             *number_roots = TWO_ROOTS;
-            *x1 = (-b + sqrt(discr)) / (2 * a);
-            *x2 = (-b - sqrt(discr)) / (2 * a);
+            sqrt_discriminant = sqrt(discriminant);
+            *x1 = (-b + sqrt_discriminant) / (2 * a);
+            *x2 = (-b - sqrt_discriminant) / (2 * a);
         }
     }
 }
@@ -119,7 +119,6 @@ int data_output(int number_roots, double x1, double x2)
 
 int linear_solver(double b, double c, double* x1, double* x2, int* number_roots)
 {
-
     if (compare_with_zero(b) == 0)
     {
         if (compare_with_zero(c) == 0)
@@ -131,7 +130,7 @@ int linear_solver(double b, double c, double* x1, double* x2, int* number_roots)
             *number_roots = NO_ROOTS;
         }
     }
-    else // (b != 0)
+    else
     {
         if (compare_with_zero(c) == 0)
         {
@@ -146,9 +145,17 @@ int linear_solver(double b, double c, double* x1, double* x2, int* number_roots)
     }
 }
 
-int compare_with_zero (double x)    // comparing coeffs with zero
+int compare_with_zero(double x)    // comparing coeffs with zero
 {
-    if (fabs(x) <  EPSILON) return 0;
-    else if (x  < -EPSILON) return -1;
+    if (fabs(x) <  EPSILON)
+    {
+        return 0;
+    }
+    else if (x  < -EPSILON)
+    {
+        return -1;
+    }
     else return 1;
 }
+
+
