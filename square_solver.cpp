@@ -10,6 +10,7 @@ const int    TWO_ROOTS      =  2;            //TODO
 const double EPSILON        =  1e-9;
 
 int data_entry(double* a, double* b, double* c);
+int math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots);
 int square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots);
 int linear_solver(double b, double c, double* x1, double* x2, int* number_roots);
 int data_output(int number_roots, double x1, double x2);
@@ -22,14 +23,8 @@ int main()
 
     data_entry(&a, &b, &c);
 
-    if (compare_with_zero(a) != 0)
-    {
-        square_solver(a, b, c, &x1, &x2, &number_roots);
-    }
-    else
-    {
-        linear_solver(b, c, &x1, &x2, &number_roots);
-    }
+    math_calculus(a, b, c, &x1, &x2, &number_roots);
+
     data_output(number_roots, x1, x2);
 }
 
@@ -158,4 +153,14 @@ int compare_with_zero(double x)    // comparing coeffs with zero
     else return 1;
 }
 
-
+int math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots)
+{
+   if (compare_with_zero(a) != 0)
+    {
+        square_solver(a, b, c, x1, x2, number_roots);
+    }
+    else
+    {
+        linear_solver(b, c, x1, x2, number_roots);
+    }
+}
