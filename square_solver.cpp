@@ -6,49 +6,52 @@
 const int    INFINITY_ROOTS = -1;
 const int    NO_ROOTS       =  0;
 const int    ONE_ROOTS      =  1;
-const int    TWO_ROOTS      =  2;            //TODO
+const int    TWO_ROOTS      =  2;            //TODO enum
 const double EPSILON        =  1e-9;
 
-int data_entry(double* a, double* b, double* c);
-int math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots);
-int square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots);
-int linear_solver(double b, double c, double* x1, double* x2, int* number_roots);
-int data_output(int number_roots, double x1, double x2);
-int compare_with_zero (double x);
+void input_data(double* a, double* b, double* c);
+void math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots);
+void square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots);
+void linear_solver(double b, double c, double* x1, double* x2, int* number_roots);
+void output_data(int number_roots, double x1, double x2);
+int  compare_with_zero (double x);
 
 int main()
 {
     double a = NAN, b = NAN, c = NAN, x1 = NAN, x2 = NAN;
     int number_roots = 0;
 
-    data_entry(&a, &b, &c);
+    input_data(&a, &b, &c);
 
     math_calculus(a, b, c, &x1, &x2, &number_roots);
 
-    data_output(number_roots, x1, x2);
+    output_data(number_roots, x1, x2);
 }
 
-int data_entry(double* a, double* b, double* c)
+void input_data(double* a, double* b, double* c)
 {
-    printf("a=");
-    scanf("%lg",a);
+    printf("Hi,hi, this program solves an equation of the form ax^2+bx + c = 0\n"
+           "enter a, b, c\n");
+    scanf("%lg%lg%lg", a, b, c);
 
-    printf("\n"
-           "b=");
-    scanf("%lg",b);
-
-    printf("\n"
-           "c=");
-    scanf("%lg",c);
-
-    printf("\n"); //input a,b,c
-    assert(isfinite(*a));//TODO
+    assert(isfinite(*a));
     assert(isfinite(*b));
     assert(isfinite(*c));
+
+    assert(a != b);
+    assert(a != c);
+    assert(b != c);
 }
 
-int square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots)
+void square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots)
 {
+    assert(isfinite(a));
+    assert(isfinite(b));
+    assert(isfinite(c));
+
+    assert(x1);
+    assert(x2);
+
     if (compare_with_zero(b) == 0 && compare_with_zero(c) == 0)//TODO check is NULL x1, x2 - adress
     {
         *x1 = *x2 = 0;
@@ -80,7 +83,7 @@ int square_solver(double a, double b, double c, double* x1, double* x2, int* num
     }
 }
 
-int data_output(int number_roots, double x1, double x2)
+void output_data(int number_roots, double x1, double x2)
 {
     switch (number_roots)
     {
@@ -112,8 +115,14 @@ int data_output(int number_roots, double x1, double x2)
     }
 }
 
-int linear_solver(double b, double c, double* x1, double* x2, int* number_roots)
+void linear_solver(double b, double c, double* x1, double* x2, int* number_roots)
 {
+    assert(isfinite(b));
+    assert(isfinite(c));
+
+    assert(x1);
+    assert(x2);
+
     if (compare_with_zero(b) == 0)
     {
         if (compare_with_zero(c) == 0)
@@ -144,7 +153,7 @@ int compare_with_zero(double x)    // comparing coeffs with zero
 {
     if (fabs(x) <  EPSILON)
     {
-        return 0;
+        return 0; //TODO name
     }
     else if (x  < -EPSILON)
     {
@@ -153,7 +162,7 @@ int compare_with_zero(double x)    // comparing coeffs with zero
     else return 1;
 }
 
-int math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots)
+void math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots) //TODO rename
 {
    if (compare_with_zero(a) != 0)
     {
