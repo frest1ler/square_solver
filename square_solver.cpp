@@ -44,7 +44,7 @@ void input_data(struct input_coeff *input)
 {
     printf("Hi,hi, this program solves an equation of the form ax^2+bx + c = 0\n"
            "enter a, b, c\n");
-    scanf("%lg%lg%lg", input->a, input->b, input->c);
+    scanf("%lg%lg%lg", &(input->a), &(input->b), &(input->c));
 
     assert(isfinite(input->a));
     assert(isfinite(input->b));
