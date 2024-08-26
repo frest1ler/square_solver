@@ -9,83 +9,95 @@ const int    ONE_ROOTS      =  1;
 const int    TWO_ROOTS      =  2;            //TODO enum
 const double EPSILON        =  1e-9;
 
-void input_data(double* a, double* b, double* c);
-void math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots);
-void square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots);
-void linear_solver(double b, double c, double* x1, double* x2, int* number_roots);
-void output_data(int number_roots, double x1, double x2);
+void input_data(struct input_coeff *input);
+void math_calculus(struct input_coeff input, struct output_coeff *output);
+void square_solver(struct input_coeff input, struct output_coeff *output);
+void linear_solver(struct input_coeff input, struct output_coeff *output);
+void output_data(struct output_coeff output);
 int  compare_with_zero (double x);
+
+struct input_coeff
+{
+    double a;
+    double b;
+    double c;
+};
+struct output_coeff
+{
+    double x1;
+    double x2;
+    int number_roots;
+};
 
 int main()
 {
-    double a = NAN, b = NAN, c = NAN, x1 = NAN, x2 = NAN;
-    int number_roots = 0;
+    struct input_coeff input;
+    struct output_coeff output;
+    input_data(&input);
 
-    input_data(&a, &b, &c);
+    math_calculus(input, &output);
 
-    math_calculus(a, b, c, &x1, &x2, &number_roots);
-
-    output_data(number_roots, x1, x2);
+    output_data(output);
 }
 
-void input_data(double* a, double* b, double* c)
+void input_data(struct input_coeff *input)
 {
     printf("Hi,hi, this program solves an equation of the form ax^2+bx + c = 0\n"
            "enter a, b, c\n");
-    scanf("%lg%lg%lg", a, b, c);
+    scanf("%lg%lg%lg", input->a, input->b, input->c);
 
-    assert(isfinite(*a));
-    assert(isfinite(*b));
-    assert(isfinite(*c));
+    assert(isfinite(input->a));
+    assert(isfinite(input->b));
+    assert(isfinite(input->c));
 
-    assert(a != b);
-    assert(a != c);
-    assert(b != c);
+    assert(input->a != input->b);
+    assert(input->a != input->c);
+    assert(input->b != input->c);
 }
 
-void square_solver(double a, double b, double c, double* x1, double* x2, int* number_roots)
+void square_solver(struct input_coeff input, struct output_coeff *output)
 {
-    assert(isfinite(a));
-    assert(isfinite(b));
-    assert(isfinite(c));
+    assert(isfinite(input.a));
+    assert(isfinite(input.b));
+    assert(isfinite(input.c));
 
-    assert(x1);
-    assert(x2);
+    assert(output->x1);
+    assert(output->x2);
 
-    if (compare_with_zero(b) == 0 && compare_with_zero(c) == 0)//TODO check is NULL x1, x2 - adress
+    if (compare_with_zero(input.b) == 0 && compare_with_zero(input.c) == 0)//TODO check is NULL x1, x2 - adress
     {
-        *x1 = *x2 = 0;
-        *number_roots = ONE_ROOTS;
+        output->x1 = output->x2 = 0;
+        output->number_roots = ONE_ROOTS;
     }
     else
     { // compare_with_zero(b) != 0 || compare_with_zero(c) != 0
         double discriminant = NAN, sqrt_discriminant = NAN;
 
-        discriminant = b * b - 4 * a * c;
+        discriminant = input.b * input.b - 4 * input.a * input.c;
 
         if (compare_with_zero(discriminant) == -1)
         {
-            *number_roots = NO_ROOTS;
+            output->number_roots = NO_ROOTS;
         }
         if (compare_with_zero(discriminant) == 0)
         {
-            *number_roots = ONE_ROOTS;
-            *x1 = *x2 = -b / (2 * a);
+            output->number_roots = ONE_ROOTS;
+            output->x1 = output->x2 = -input.b / (2 * input.a);
         }
 
         if (compare_with_zero(discriminant) == 1)
         {
-            *number_roots = TWO_ROOTS;
+            output->number_roots = TWO_ROOTS;
             sqrt_discriminant = sqrt(discriminant);
-            *x1 = (-b + sqrt_discriminant) / (2 * a);
-            *x2 = (-b - sqrt_discriminant) / (2 * a);
+            output->x1 = (-input.b + sqrt_discriminant) / (2 * input.a);
+            output->x2 = (-input.b - sqrt_discriminant) / (2 * input.a);
         }
     }
 }
 
-void output_data(int number_roots, double x1, double x2)
+void output_data(struct output_coeff output)
 {
-    switch (number_roots)
+    switch (output.number_roots)
     {
         case NO_ROOTS :
         {
@@ -94,12 +106,12 @@ void output_data(int number_roots, double x1, double x2)
         }
         case ONE_ROOTS :
         {
-            printf("One roots x=%lg\n", x1);
+            printf("One roots x=%lg\n", output.x1);
             break;
         }
         case TWO_ROOTS :
         {
-            printf("Two roots x1=%lg , x2=%lg\n", x1, x2);
+            printf("Two roots x1=%lg , x2=%lg\n", output.x1, output.x2);
             break;
         }
         case INFINITY_ROOTS :
@@ -115,36 +127,36 @@ void output_data(int number_roots, double x1, double x2)
     }
 }
 
-void linear_solver(double b, double c, double* x1, double* x2, int* number_roots)
+void linear_solver(struct input_coeff input, struct output_coeff *output)
 {
-    assert(isfinite(b));
-    assert(isfinite(c));
+    assert(isfinite(input.b));
+    assert(isfinite(input.c));
 
-    assert(x1);
-    assert(x2);
+    assert(output->x1);
+    assert(output->x2);
 
-    if (compare_with_zero(b) == 0)
+    if (compare_with_zero(input.b) == 0)
     {
-        if (compare_with_zero(c) == 0)
+        if (compare_with_zero(input.c) == 0)
         {
-            *number_roots = INFINITY_ROOTS;
+            output->number_roots = INFINITY_ROOTS;
         }
         else
         {
-            *number_roots = NO_ROOTS;
+            output->number_roots = NO_ROOTS;
         }
     }
     else
     {
-        if (compare_with_zero(c) == 0)
+        if (compare_with_zero(input.c) == 0)
         {
-            *x1 = *x2 = 0;
-            *number_roots = ONE_ROOTS;
+            output->x1 = output->x2 = 0;
+            output->number_roots = ONE_ROOTS;
         }
         else
         {
-            *number_roots = ONE_ROOTS;
-            *x1 = *x2 = -c / b;
+            output->number_roots = ONE_ROOTS;
+            output->x1 = output->x2 = -input.c / input.b;
         }
     }
 }
@@ -162,14 +174,14 @@ int compare_with_zero(double x)    // comparing coeffs with zero
     else return 1;
 }
 
-void math_calculus(double a, double b, double c, double* x1, double* x2, int* number_roots) //TODO rename
+void math_calculus(struct input_coeff input, struct output_coeff *output) //TODO rename
 {
-   if (compare_with_zero(a) != 0)
+   if (compare_with_zero(input.a) != 0)
     {
-        square_solver(a, b, c, x1, x2, number_roots);
+        square_solver(input, output);
     }
     else
     {
-        linear_solver(b, c, x1, x2, number_roots);
+        linear_solver(input, output);
     }
 }
