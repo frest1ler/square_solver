@@ -50,9 +50,9 @@ void input_data(struct input_coeff *input)
     assert(isfinite(input->b));
     assert(isfinite(input->c));
 
-    assert(input->a != input->b);
-    assert(input->a != input->c);
-    assert(input->b != input->c);
+    assert(&input->a != &input->b);
+    assert(&input->a != &input->c);
+    assert(&input->b != &input->c);
 }
 
 void square_solver(struct input_coeff input, struct output_coeff *output)
@@ -61,8 +61,8 @@ void square_solver(struct input_coeff input, struct output_coeff *output)
     assert(isfinite(input.b));
     assert(isfinite(input.c));
 
-    assert(output->x1);
-    assert(output->x2);
+    assert(&output->x1);
+    assert(&output->x2);
 
     if (compare_with_zero(input.b) == 0 && compare_with_zero(input.c) == 0)//TODO check is NULL x1, x2 - adress
     {
@@ -132,8 +132,8 @@ void linear_solver(struct input_coeff input, struct output_coeff *output)
     assert(isfinite(input.b));
     assert(isfinite(input.c));
 
-    assert(output->x1);
-    assert(output->x2);
+    assert(&output->x1);
+    assert(&output->x2);
 
     if (compare_with_zero(input.b) == 0)
     {
