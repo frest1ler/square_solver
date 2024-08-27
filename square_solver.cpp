@@ -31,8 +31,8 @@ struct output_coeff
 
 int main()
 {
-    struct input_coeff input;
-    struct output_coeff output;
+    struct input_coeff input = {NAN, NAN, NAN};
+    struct output_coeff output = {NAN, NAN, 0};
     input_data(&input);
 
     math_calculus(input, &output);
@@ -129,6 +129,7 @@ void output_data(struct output_coeff output)
 
 void linear_solver(struct input_coeff input, struct output_coeff *output)
 {
+    assert(isfinite(input.a));
     assert(isfinite(input.b));
     assert(isfinite(input.c));
 
