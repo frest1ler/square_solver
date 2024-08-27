@@ -10,6 +10,7 @@ const int    TWO_ROOTS      =  2;            //TODO enum
 const double EPSILON        =  1e-9;
 
 void input_data(struct input_coeff *input);
+void clear_buffer();
 void math_calculus(struct input_coeff input, struct output_coeff *output);
 void square_solver(struct input_coeff input, struct output_coeff *output);
 void linear_solver(struct input_coeff input, struct output_coeff *output);
@@ -44,7 +45,12 @@ void input_data(struct input_coeff *input)
 {
     printf("Hi,hi, this program solves an equation of the form ax^2+bx + c = 0\n"
            "enter a, b, c\n");
-    scanf("%lg%lg%lg", &(input->a), &(input->b), &(input->c));
+    while((scanf("%lg%lg%lg", &(input->a), &(input->b), &(input->c))) != 3
+          || (isfinite(input->a)) == 0 || (isfinite(input->b)) == 0 || (isfinite(input->c)) == 0)
+    {
+        clear_buffer();
+        printf("Input error. Try again\007\n");
+    }
 
     assert(isfinite(input->a));
     assert(isfinite(input->b));
@@ -185,4 +191,14 @@ void math_calculus(struct input_coeff input, struct output_coeff *output) //TODO
     {
         linear_solver(input, output);
     }
+}
+
+void clear_buffer()
+{
+	char clean = 0;
+
+	do
+	{
+        clean = getchar();
+	} while (clean != '\n' && clean != EOF);
 }
