@@ -11,11 +11,10 @@ enum const_data
     TWO_ROOTS      =  2,
     LESS_THAN_EPSILON               = -1,
     INSIDE_THE_EPSILON_NEIGHBORHOOD = 0,
-    MORE_EPSILON                    = 1
+    MORE_EPSILON                    = 1,
 };
 
-const double EPSILON        =  1e-9;
-
+const double EPSILON         =  1e-9;
 void input_data(struct equalization_coefficients *input);
 void clear_buffer();
 void math_calculus(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output);
@@ -23,7 +22,7 @@ void square_solver(enum const_data data, struct equalization_coefficients *input
 void linear_solver(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output);
 void output_data(enum const_data data, struct roots_of_equation *output);
 void test_one(struct test_data *data_for_test, struct roots_of_equation *output, int i, enum const_data data);
-void test(struct test_data *data_for_test, struct roots_of_equation *output, enum const_data data);
+void test(struct test_data *data_for_test, struct roots_of_equation *output, enum const_data data, const int MAX_NUMBER_TEST);
 int  compare_with_zero (double x);
 
 struct equalization_coefficients //TODO RENAME
@@ -48,14 +47,16 @@ struct test_data
 
 int main()
 {
-    enum const_data data;
-    struct test_data data_for_test[2] =
+    enum const_data data;   //TODO rename
+    struct test_data data_for_test[] =
     {
         {{1, -5, 6}, {2, 3, 2}, 0},
-        {{0, 0, 0}, {NAN, NAN, -1}, 1}
+        {{0, 0, 0}, {0, 0, -1}, 1}
     };
     struct equalization_coefficients input = {NAN, NAN, NAN};
     struct roots_of_equation         output = {NAN, NAN, 0};
+
+    const int MAX_NUMBER_TEST = sizeof(data_for_test) / sizeof(test_data);
 
     input_data(&input);
 
@@ -63,7 +64,7 @@ int main()
 
     output_data(data, &output);
 
-    test(data_for_test, &output, data);
+    test(data_for_test, &output, data, MAX_NUMBER_TEST);
 }
 
 void input_data(struct equalization_coefficients *input)
@@ -174,6 +175,7 @@ void linear_solver(enum const_data data, struct equalization_coefficients *input
         if (compare_with_zero(input->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
         {
             output->number_roots = INFINITY_ROOTS;
+            output->x1 = output->x2 = 0;
         }
         else
         {
@@ -213,12 +215,10 @@ void math_calculus(enum const_data data, struct equalization_coefficients *input
    if (compare_with_zero(input->a) != INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {
         square_solver(data, input, output);
-        printf ("x1=%lg\n x2=%lg\n nRoots=%d", output->x1, output->x2, output->number_roots);
     }
     else
     {
         linear_solver(data, input, output);
-        printf ("x1=%lg\n x2=%lg\n nRoots=%d", output->x1, output->x2, output->number_roots);
     }
 }
 void clear_buffer()
@@ -251,13 +251,13 @@ void test_one(struct test_data *data_for_test, struct roots_of_equation *output,
     }
     else
     {
-        printf("TEST OK");
+        printf("TEST OK\n");
     }
 }
 void test(struct test_data *data_for_test, struct roots_of_equation *output,
-          enum const_data data)
+          enum const_data data, const int MAX_NUMBER_TEST)
 {
-    for(int i = 0; i < 2; ++i) //sizeof(massive)/sizepf(struct)
+    for(int i = 0; i < MAX_NUMBER_TEST; i++)
     {
         test_one(&data_for_test[i], output, i, data);
     }
