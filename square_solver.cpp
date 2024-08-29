@@ -17,12 +17,12 @@ enum const_data
 const double EPSILON         =  1e-9;
 void input_data(struct equalization_coefficients *input);
 void clear_buffer();
-void math_calculus(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output);
-void square_solver(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output);
-void linear_solver(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output);
-void output_data(enum const_data data, struct roots_of_equation *output);
-void test_one(struct test_data *data_for_test, struct roots_of_equation *output, int i, enum const_data data);
-void test(struct test_data *data_for_test, struct roots_of_equation *output, enum const_data data, const int MAX_NUMBER_TEST);
+void math_calculus(struct equalization_coefficients *input, struct roots_of_equation *output);
+void square_solver(struct equalization_coefficients *input, struct roots_of_equation *output);
+void linear_solver(struct equalization_coefficients *input, struct roots_of_equation *output);
+void output_data(struct roots_of_equation *output);
+void test_one(struct test_data *data_for_test, struct roots_of_equation *output, int i);
+void test(struct test_data *data_for_test, struct roots_of_equation *output, const int MAX_NUMBER_TEST);
 int  compare_with_zero (double x);
 
 struct equalization_coefficients //TODO RENAME
@@ -47,7 +47,6 @@ struct test_data
 
 int main()
 {
-    enum const_data data;   //TODO rename
     struct test_data data_for_test[] =
     {
         {{1, -5, 6}, {2, 3, 2}, 0},
@@ -60,11 +59,11 @@ int main()
 
     input_data(&input);
 
-    math_calculus(data, &input, &output);
+    math_calculus(&input, &output);
 
-    output_data(data, &output);
+    output_data(&output);
 
-    test(data_for_test, &output, data, MAX_NUMBER_TEST);
+    test(data_for_test, &output, MAX_NUMBER_TEST);
 }
 
 void input_data(struct equalization_coefficients *input)
@@ -75,7 +74,7 @@ void input_data(struct equalization_coefficients *input)
           || (isfinite(input->a)) == 0 || (isfinite(input->b)) == 0 || (isfinite(input->c)) == 0)
     {
         clear_buffer();
-        printf("Input error. Try again\007\n");
+        printf("Input error. Try again\a\n");
     }
     clear_buffer();
 
@@ -88,7 +87,7 @@ void input_data(struct equalization_coefficients *input)
     assert(&input->b != &input->c);
 }
 
-void square_solver(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output)
+void square_solver(struct equalization_coefficients *input, struct roots_of_equation *output)
 {
     assert(isfinite(input->a));
     assert(isfinite(input->b));
@@ -96,7 +95,6 @@ void square_solver(enum const_data data, struct equalization_coefficients *input
 
     assert(&output->x1); //TODO adress struct != 0
     assert(&output->x2);
-
     if (compare_with_zero(input->b) == INSIDE_THE_EPSILON_NEIGHBORHOOD &&
         compare_with_zero(input->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {
@@ -112,6 +110,7 @@ void square_solver(enum const_data data, struct equalization_coefficients *input
         if (compare_with_zero(discriminant) == LESS_THAN_EPSILON)
         {
             output->number_roots = NO_ROOTS;
+            output->x1 = output->x2 = 0;
         }
         if (compare_with_zero(discriminant) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
         {
@@ -129,7 +128,7 @@ void square_solver(enum const_data data, struct equalization_coefficients *input
     }
 }
 
-void output_data(enum const_data data, struct roots_of_equation *output)
+void output_data(struct roots_of_equation *output)
 {
     switch (output->number_roots)
     {
@@ -161,7 +160,7 @@ void output_data(enum const_data data, struct roots_of_equation *output)
     }
 }
 
-void linear_solver(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output)
+void linear_solver(struct equalization_coefficients *input, struct roots_of_equation *output)
 {
     assert(isfinite(input->a));
     assert(isfinite(input->b));
@@ -210,20 +209,20 @@ int compare_with_zero(double x)    // comparing coeffs with zero
     else return MORE_EPSILON;
 }
 
-void math_calculus(enum const_data data, struct equalization_coefficients *input, struct roots_of_equation *output) //TODO rename
+void math_calculus(struct equalization_coefficients *input, struct roots_of_equation *output) //TODO rename
 {
    if (compare_with_zero(input->a) != INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {
-        square_solver(data, input, output);
+        square_solver(input, output);
     }
     else
     {
-        linear_solver(data, input, output);
+        linear_solver(input, output);
     }
 }
 void clear_buffer()
 {
-	char clean = 0;
+	int clean = 0;
 
 	do
 	{
@@ -231,15 +230,15 @@ void clear_buffer()
 	} while (clean != '\n' && clean != EOF);
 }
 
-void test_one(struct test_data *data_for_test, struct roots_of_equation *output, int i,
-              enum const_data data)
+void test_one(struct test_data *data_for_test, struct roots_of_equation *output, int i)
 {
     output->x1 = NAN;
     output->x2 = NAN;
     output->number_roots = 0;
 
-    math_calculus(data, &data_for_test[i].input_test, output);
-    if (output->x1 != data_for_test[i].output_test.x1 && output->x2 != data_for_test[i].output_test.x2 &&
+    math_calculus(&data_for_test[i].input_test, output);
+    if (compare_with_zero(output->x1 - data_for_test[i].output_test.x1) != 0 &&
+    compare_with_zero(output->x2 - data_for_test[i].output_test.x2) != 0 &&
         output->number_roots != data_for_test[i].output_test.number_roots)
     {
         printf("\n%d TEST ERROR , got the results:\n\nx1=%lg ; expected x1=%lg\n"
@@ -254,11 +253,10 @@ void test_one(struct test_data *data_for_test, struct roots_of_equation *output,
         printf("TEST OK\n");
     }
 }
-void test(struct test_data *data_for_test, struct roots_of_equation *output,
-          enum const_data data, const int MAX_NUMBER_TEST)
+void test(struct test_data *data_for_test, struct roots_of_equation *output, const int MAX_NUMBER_TEST)
 {
     for(int i = 0; i < MAX_NUMBER_TEST; i++)
     {
-        test_one(&data_for_test[i], output, i, data);
+        test_one(&data_for_test[i], output, i);
     }
 }
