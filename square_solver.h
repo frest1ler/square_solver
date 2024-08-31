@@ -1,5 +1,5 @@
-#ifndef SQUARE_SOLVER_H_    //TODO remove _
-#define SQUARE_SOLVER_H_
+#ifndef SQUARE_SOLVER_H
+#define SQUARE_SOLVER_H
 struct equation_coefficients
 {
     double a;
@@ -11,7 +11,7 @@ struct equation_roots
 {
     double x1;
     double x2;
-    int    number_roots;    //TODO enum type
+    int    number_roots;    //TODO enum type (я могу к number_roots присвоить только значения из енам, иначе ошибка
 };
 
 enum number_roots
@@ -28,4 +28,4 @@ enum compare_constants
     INSIDE_THE_EPSILON_NEIGHBORHOOD =  0,
     MORE_EPSILON                    =  1
 };
-#endif /*SQUARE_SOLVER_H_*/
+#endif /*SQUARE_SOLVER_H*/

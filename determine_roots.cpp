@@ -20,53 +20,65 @@ void determine_roots(struct equation_coefficients *coefficients, struct equation
 
 void square_solver(struct equation_coefficients *coefficients, struct equation_roots *roots)
 {
-    assert(isfinite(coefficients->a));  //TODO ПОМЕНЯТЬ МЕСТАМИ
-    assert(isfinite(coefficients->b));
-    assert(isfinite(coefficients->c));
-
     assert(roots);
     assert(coefficients);
 
-    if (compare_with_zero(coefficients->b) == INSIDE_THE_EPSILON_NEIGHBORHOOD &&        //TODO REMOVE -0 EXAMPLE -1 5 0
-        compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
+    assert(isfinite(coefficients->a));
+    assert(isfinite(coefficients->b));
+    assert(isfinite(coefficients->c));
+
+    if (compare_with_zero(coefficients->b) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {
-        roots->x1 = roots->x2 = 0;
-        roots->number_roots = ONE_ROOTS;
-    }
-    else
-    { // compare_with_zero(b) != 0 || compare_with_zero(c) != 0
-        double discriminant = NAN, sqrt_discriminant = NAN;
-
-        discriminant = coefficients->b * coefficients->b - 4 * coefficients->a * coefficients->c;
-
-        if (compare_with_zero(discriminant) == LESS_THAN_EPSILON)
+        if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
         {
-            roots->number_roots = NO_ROOTS;
             roots->x1 = roots->x2 = 0;
-        }
-        if (compare_with_zero(discriminant) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
-        {
             roots->number_roots = ONE_ROOTS;
-            roots->x1 = roots->x2 = -coefficients->b / (2 * coefficients->a);
         }
-
-        if (compare_with_zero(discriminant) == MORE_EPSILON)
+    }
+    else // compare_with_zero(b) != 0
+    {
+        if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD) //b != 0 && c == 0
         {
+            roots->x1 = 0;
+            roots->x2 = - coefficients->b / coefficients->a;
             roots->number_roots = TWO_ROOTS;
-            sqrt_discriminant = sqrt(discriminant);
-            roots->x1 = (-coefficients->b + sqrt_discriminant) / (2 * coefficients->a);
-            roots->x2 = (-coefficients->b - sqrt_discriminant) / (2 * coefficients->a);
+        }
+        else // b != 0 && c != 0
+        {
+            double discriminant = NAN, sqrt_discriminant = NAN;
+
+            discriminant = coefficients->b * coefficients->b - 4 * coefficients->a * coefficients->c;
+
+            if (compare_with_zero(discriminant) == LESS_THAN_EPSILON)
+            {
+                roots->number_roots = NO_ROOTS;
+                roots->x1 = roots->x2 = 0;
+            }
+            if (compare_with_zero(discriminant) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
+            {
+                roots->number_roots = ONE_ROOTS;
+                roots->x1 = roots->x2 = -coefficients->b / (2 * coefficients->a);
+            }
+
+            if (compare_with_zero(discriminant) == MORE_EPSILON)
+            {
+                roots->number_roots = TWO_ROOTS;
+                sqrt_discriminant = sqrt(discriminant);
+                roots->x1 = (-coefficients->b + sqrt_discriminant) / (2 * coefficients->a);
+                roots->x2 = (-coefficients->b - sqrt_discriminant) / (2 * coefficients->a);
+            }
         }
     }
 }
 
 void linear_solver(struct equation_coefficients *coefficients, struct equation_roots *roots)
 {
-    assert(isfinite(coefficients->a));  //TODO ASSERT
+    assert(roots);
+    assert(coefficients);
+
+    assert(isfinite(coefficients->a));
     assert(isfinite(coefficients->b));
     assert(isfinite(coefficients->c));
-
-    assert(roots);
 
     if (compare_with_zero(coefficients->b) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {

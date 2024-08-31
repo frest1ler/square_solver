@@ -1,9 +1,16 @@
 #include <stdio.h>
+#include <assert.h>
+#include <math.h>
 #include "output_data.h"
 #include "square_solver.h"
 
-void output_data(struct equation_roots *roots)  //TODO assert
+void output_data(struct equation_roots *roots)
 {
+    assert(roots);
+
+    assert(isfinite(roots->x1));
+    assert(isfinite(roots->x2));
+
     switch (roots->number_roots)
     {
         case NO_ROOTS :

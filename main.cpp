@@ -12,7 +12,7 @@
 
 int main()
 {
-    unit_test(); //TODO ИНТЕРФЕЙС ПОЛЬЗОВАТЕЛЬСКИЙ
+    unit_test();
 
     struct equation_coefficients coefficients = {NAN, NAN, NAN};
     struct equation_roots        roots        = {NAN, NAN, 0};

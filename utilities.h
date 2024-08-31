@@ -2,7 +2,11 @@
 #define COMPARE_WITH_ZERO_H_
 #include <math.h>
 
-int compare_with_zero(double x);
+#define MIN(i, j) (((i) < (j)) ? (i) : (j))
+#define MAX(i, j) (((i) > (j)) ? (i) : (j))
 
 const double EPSILON = 1e-9;
+
+int compare_with_zero(double x);
+void clear_buffer();
 #endif /*COMPARE_WITH_ZERO_H_*/
