@@ -4,8 +4,8 @@
 
 const double EPSILON = 1e-9;
 
-int max(double x, double y);
-int min(double x, double y);
+double max(double x, double y);
+double min(double x, double y);
 int compare_with_zero(double x);
 void clear_buffer();
 int communication_with_user();

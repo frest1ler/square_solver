@@ -61,7 +61,7 @@ int is_nan(double x)
 int compare_double(double x, double y)
 {
     int number_of_nan_roots = is_nan(x) + is_nan(y);
-    if (!number_of_nan_roots)
+    if (number_of_nan_roots == 0)
     {
         if (fabs(x-y) <  EPSILON)
         {
@@ -81,12 +81,12 @@ int compare_double(double x, double y)
         }
         else // have the one nan roots
         {
-            printf("ERROR\n");
+            printf("ERROR COMPARE DOUBLE\n");
         }
     }
 }
 
-int max(double x, double y)
+double max(double x, double y)
 {
     switch(compare_double(x, y))
     {
@@ -110,7 +110,7 @@ int max(double x, double y)
     }
 }
 
-int min(double x, double y)
+double min(double x, double y)
 {
     switch(compare_double(x, y))
     {

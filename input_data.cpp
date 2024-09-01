@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <assert.h>
+#include "square_solver.h"
 #include "input_data.h"
 #include "utilities.h"
 

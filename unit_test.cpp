@@ -30,39 +30,22 @@ void unit_test()
 
 void test(struct test_data *data_for_test, struct equation_roots *roots, int i) //TODO номер теста в структуре
 {
-    int comparing_roots = 0;
-
     roots->x1 = NAN;
     roots->x2 = NAN;
     roots->number_roots = 0;
 
     determine_roots(&data_for_test[i].coefficients, roots);
 
-    printf("%lg\n", data_for_test[1].roots_etalon.x2);
-    printf("%d %d\n", number_of_nan_roots, number_of_nan_roots_etalon);
     printf("\\\\\\\\\\\\\\\\\\\\\\\n"
            "%lg %lg %lg\n", data_for_test[i].coefficients.a, data_for_test[i].coefficients.b, data_for_test[i].coefficients.c);
-    assert(&number_of_nan_roots_etalon);
-    assert(&number_of_nan_roots);
 
-    double min_roots = MIN(roots->x1, roots->x2);
-    double max_roots = MAX(roots->x1, roots->x2);
-    double min_roots_etalon = MIN(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
-    double max_roots_etalon = MAX(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
+    double min_roots = min(roots->x1, roots->x2);
+    double max_roots = max(roots->x1, roots->x2);
+    double min_roots_etalon = min(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
+    double max_roots_etalon = max(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
 
-    switch (number_of_nan_roots)
-    {
-        case 0 :
-        {
-            if (number_of_nan_roots_etalon == 0)
-            {
-                double min_roots = MIN(roots->x1, roots->x2);
-                double max_roots = MAX(roots->x1, roots->x2);
-                double min_roots_etalon = MIN(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
-                double max_roots_etalon = MAX(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
-
-
-    if (comparing_roots)
+    if (!compare_double(min_roots, min_roots_etalon) && !compare_double(max_roots, max_roots_etalon) &&
+        roots->number_roots == data_for_test[i].roots_etalon.number_roots)
     {
         printf("%d TEST OK\n", data_for_test[i].number_test);
     }
