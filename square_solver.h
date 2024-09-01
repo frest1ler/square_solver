@@ -28,4 +28,11 @@ enum compare_constants
     INSIDE_THE_EPSILON_NEIGHBORHOOD =  0,
     MORE_EPSILON                    =  1
 };
+
+struct test_data
+{
+    struct equation_coefficients coefficients;
+    struct equation_roots        roots_etalon;
+    int                          number_test;
+};
 #endif /*SQUARE_SOLVER_H*/

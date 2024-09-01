@@ -12,15 +12,25 @@
 
 int main()
 {
-    unit_test();
-
+    printf("Do you want to run tests? ");
+    if (communication_with_user())
+    {
+        unit_test();
+    }
     struct equation_coefficients coefficients = {NAN, NAN, NAN};
     struct equation_roots        roots        = {NAN, NAN, 0};
-    input_data(&coefficients);
 
-    determine_roots(&coefficients, &roots);
+    do
+    {
+        input_data(&coefficients);
 
-    output_data(&roots);
+        determine_roots(&coefficients, &roots);
+
+        output_data(&roots);
+
+        printf("Would you like to do it again?");
+    }
+    while(communication_with_user());
 
     return 0;
 }

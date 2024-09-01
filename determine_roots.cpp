@@ -31,7 +31,7 @@ void square_solver(struct equation_coefficients *coefficients, struct equation_r
     {
         if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
         {
-            roots->x1 = roots->x2 = 0;
+            roots->x1 = 0;
             roots->number_roots = ONE_ROOTS;
         }
     }
@@ -52,12 +52,11 @@ void square_solver(struct equation_coefficients *coefficients, struct equation_r
             if (compare_with_zero(discriminant) == LESS_THAN_EPSILON)
             {
                 roots->number_roots = NO_ROOTS;
-                roots->x1 = roots->x2 = 0;
             }
             if (compare_with_zero(discriminant) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
             {
                 roots->number_roots = ONE_ROOTS;
-                roots->x1 = roots->x2 = -coefficients->b / (2 * coefficients->a);
+                roots->x1 = -coefficients->b / (2 * coefficients->a);
             }
 
             if (compare_with_zero(discriminant) == MORE_EPSILON)
@@ -85,24 +84,23 @@ void linear_solver(struct equation_coefficients *coefficients, struct equation_r
         if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
         {
             roots->number_roots = INFINITY_ROOTS;
-            roots->x1 = roots->x2 = 0;      //TODO NAN
         }
         else
         {
-            roots->number_roots = NO_ROOTS; //TODO
+            roots->number_roots = NO_ROOTS;
         }
     }
     else
     {
         if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
         {
-            roots->x1 = roots->x2 = 0;
+            roots->x1 = 0;
             roots->number_roots = ONE_ROOTS;
         }
         else
         {
             roots->number_roots = ONE_ROOTS;
-            roots->x1 = roots->x2 = -coefficients->c / coefficients->b; //TODO ОДИН КОРЕНЬ
+            roots->x1 = -coefficients->c / coefficients->b;
         }
     }
 }
