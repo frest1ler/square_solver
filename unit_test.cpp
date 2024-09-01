@@ -38,14 +38,17 @@ void test(struct test_data *data_for_test, struct equation_roots *roots, int i) 
 
     determine_roots(&data_for_test[i].coefficients, roots);
 
-    int number_of_nan_roots_etalon = is_nan(data_for_test[i].roots_etalon.x1) + is_nan(data_for_test[i].roots_etalon.x2);
-    int number_of_nan_roots = is_nan(roots->x1) + is_nan(roots->x2);
     printf("%lg\n", data_for_test[1].roots_etalon.x2);
     printf("%d %d\n", number_of_nan_roots, number_of_nan_roots_etalon);
     printf("\\\\\\\\\\\\\\\\\\\\\\\n"
            "%lg %lg %lg\n", data_for_test[i].coefficients.a, data_for_test[i].coefficients.b, data_for_test[i].coefficients.c);
     assert(&number_of_nan_roots_etalon);
     assert(&number_of_nan_roots);
+
+    double min_roots = MIN(roots->x1, roots->x2);
+    double max_roots = MAX(roots->x1, roots->x2);
+    double min_roots_etalon = MIN(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
+    double max_roots_etalon = MAX(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
 
     switch (number_of_nan_roots)
     {
@@ -58,67 +61,7 @@ void test(struct test_data *data_for_test, struct equation_roots *roots, int i) 
                 double min_roots_etalon = MIN(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
                 double max_roots_etalon = MAX(data_for_test[i].roots_etalon.x1, data_for_test[i].roots_etalon.x2);
 
-                if (compare_with_zero(min_roots - min_roots_etalon) == 0 &&
-                    compare_with_zero(max_roots - max_roots_etalon) == 0 &&
-                    roots->number_roots == data_for_test[i].roots_etalon.number_roots)
-                {
-                    comparing_roots = 1;
-                }
-            }
-            else
-            {
-                printf("ERROR CASE 0\n");
-            }
-            break;
-        }
-        case 1 : //x1 != NAN
-        {
-            if (number_of_nan_roots_etalon == 1)
-            {
-                if (is_nan(data_for_test[i].roots_etalon.x1)) // if x1_etalon = NAN
-                {
-                    if ((!compare_with_zero(roots->x2 - data_for_test[i].roots_etalon.x2)) &&
-                        roots->number_roots == data_for_test[i].roots_etalon.number_roots) //if x1 = x2_etalon & nRoots = nRoots_etalon
-                    {
-                        comparing_roots = 1;
-                    }
-                }
-                else // if x2_etanol = NAN
-                {
-                   if (!compare_with_zero(roots->x2 - data_for_test[i].roots_etalon.x1) &&
-                       roots->number_roots == data_for_test[i].roots_etalon.number_roots) //if x1 = x1_etalon & nRoots = nRoots_etalon
-                    {
-                        comparing_roots = 1;
-                    }
-                }
-            }
-            else
-            {
-                printf("ERROR CASE 1\n");
-            }
-            break;
-        }
-        case 2 :
-        {
-            if (number_of_nan_roots_etalon == 2)
-            {
-                if (roots->number_roots == data_for_test[i].roots_etalon.number_roots)
-                {
-                    comparing_roots = 1;
-                }
-            }
-            else
-            {
-                printf("ERROR CASE 2\n");
-            }
-            break;
-        }
-        default :
-        {
-            printf("ERROR DEFAULT\n");
-            break;
-        }
-    }
+
     if (comparing_roots)
     {
         printf("%d TEST OK\n", data_for_test[i].number_test);

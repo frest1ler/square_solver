@@ -29,6 +29,13 @@ enum compare_constants
     MORE_EPSILON                    =  1
 };
 
+enum compare_double_constants
+{
+    THE_NUMBERS_ARE_EQUAL =  0,
+    X_IS_GREATER_THAN_Y   =  1,
+    Y_IS_GREATER_THAN_X   = -1
+}
+
 struct test_data
 {
     struct equation_coefficients coefficients;
