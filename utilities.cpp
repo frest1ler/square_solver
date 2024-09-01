@@ -82,6 +82,7 @@ int compare_double(double x, double y)
         else // have the one nan roots
         {
             printf("ERROR COMPARE DOUBLE\n");
+            return ERROR_COMPARE;
         }
     }
 }
@@ -92,19 +93,20 @@ double max(double x, double y)
     {
         case THE_NUMBERS_ARE_EQUAL :
         {
-            return(x);
+            return x;
         }
         case Y_IS_GREATER_THAN_X :
         {
-            return (y);
+            return y;
         }
         case X_IS_GREATER_THAN_Y :
         {
-            return (x);
+            return x;
         }
         default :
         {
             printf("ERROR MAX");
+            return ERROR_MAX;
             break;
         }
     }
@@ -116,19 +118,20 @@ double min(double x, double y)
     {
         case THE_NUMBERS_ARE_EQUAL :
         {
-            return(y);
+            return y;
         }
         case Y_IS_GREATER_THAN_X :
         {
-            return (x);
+            return x;
         }
         case X_IS_GREATER_THAN_Y :
         {
-            return (y);
+            return y;
         }
         default :
         {
             printf("ERROR MIN");
+            return ERROR_MIN;
             break;
         }
     }

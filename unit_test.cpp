@@ -14,7 +14,8 @@ void unit_test()
         {{1,  5, 6}, {-2,   -3,  2}, 2},
         {{0,  0, 0}, {NAN, NAN, -1}, 3}
     };
-    assert(data_for_test);  //TODO на стеке при выделении массивов можно не проверять, в динамической памяти стоит
+
+    //assert(data_for_test);  //TODO на стеке при выделении массивов можно не проверять, в динамической памяти стоит
 
     struct equation_roots roots = {NAN, NAN, 0};
 
@@ -30,6 +31,7 @@ void unit_test()
 
 void test(struct test_data *data_for_test, struct equation_roots *roots, int i) //TODO номер теста в структуре
 {
+
     roots->x1 = NAN;
     roots->x2 = NAN;
     roots->number_roots = 0;
@@ -37,7 +39,8 @@ void test(struct test_data *data_for_test, struct equation_roots *roots, int i) 
     determine_roots(&data_for_test[i].coefficients, roots);
 
     printf("\\\\\\\\\\\\\\\\\\\\\\\n"
-           "%lg %lg %lg\n", data_for_test[i].coefficients.a, data_for_test[i].coefficients.b, data_for_test[i].coefficients.c);
+           "%lg %lg %lg\n", data_for_test[i].coefficients.a, data_for_test[i].coefficients.b,
+           data_for_test[i].coefficients.c);
 
     double min_roots = min(roots->x1, roots->x2);
     double max_roots = max(roots->x1, roots->x2);
