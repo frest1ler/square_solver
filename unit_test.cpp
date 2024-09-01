@@ -25,6 +25,11 @@ void unit_test()
 
     for(int i = 0; i < max_number_test; i++)
     {
+        printf("roots et%lg %lg %d\n", data_for_test[i].roots_etalon.x1,
+               data_for_test[i].roots_etalon.x2, data_for_test[i].roots_etalon.number_roots);
+        printf("coeff   %lg %lg %lg\n", data_for_test[i].coefficients.a,
+               data_for_test[i].coefficients.b, data_for_test[i].coefficients.c);
+               
         test(data_for_test + i, &roots, i);//data_for_test[i] == *(data+i)
     }
 }
@@ -36,11 +41,14 @@ void test(struct test_data *data_for_test, struct equation_roots *roots, int i) 
     roots->x2 = NAN;
     roots->number_roots = 0;
 
+    printf("coeff   %lg %lg %lg\n", data_for_test[i].coefficients.a,
+           data_for_test[i].coefficients.b, data_for_test[i].coefficients.c);
+
     determine_roots(&data_for_test[i].coefficients, roots);
 
-    printf("\\\\\\\\\\\\\\\\\\\\\\\n"
-           "%lg %lg %lg\n", data_for_test[i].coefficients.a, data_for_test[i].coefficients.b,
-           data_for_test[i].coefficients.c);
+    printf("coeff   %lg %lg %lg\n", data_for_test[i].coefficients.a,
+           data_for_test[i].coefficients.b, data_for_test[i].coefficients.c);
+    printf("roots   %lg %lg %d\n", roots->x1, roots->x2, roots->number_roots);
 
     double min_roots = min(roots->x1, roots->x2);
     double max_roots = max(roots->x1, roots->x2);
