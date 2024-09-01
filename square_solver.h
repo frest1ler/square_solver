@@ -34,9 +34,16 @@ enum compare_double_constants
     THE_NUMBERS_ARE_EQUAL =  0,
     X_IS_GREATER_THAN_Y   =  1,
     Y_IS_GREATER_THAN_X   = -1,
+    HAVE_NAN_ROOT         =  2,
     ERROR_COMPARE         =  5,
     ERROR_MAX             =  6,
     ERROR_MIN             =  7
+};
+
+enum communication
+{
+    YES = 1,
+    NO  = 0
 };
 
 struct test_data

@@ -13,7 +13,7 @@
 int main()
 {
     printf("Do you want to run tests? ");
-    if (communication_with_user())
+    if (communication_with_user() == YES)
     {
         unit_test();
     }
@@ -30,7 +30,7 @@ int main()
 
         printf("Would you like to do it again?");
     }
-    while(communication_with_user());
+    while(communication_with_user() == YES);
 
     return 0;
 }

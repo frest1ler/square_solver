@@ -44,9 +44,9 @@ int communication_with_user()
     clear_buffer();
     if (program_operation_mode == 'y')
     {
-        return(1);
+        return(YES);
     }
-    return(0);
+    return(NO);
 }
 
 int is_nan(double x)
@@ -77,62 +77,66 @@ int compare_double(double x, double y)
     {
         if (number_of_nan_roots == 2)
         {
-            return  THE_NUMBERS_ARE_EQUAL;
+            return THE_NUMBERS_ARE_EQUAL;
         }
-        else // have the one nan roots
-        {
-            printf("ERROR COMPARE DOUBLE\n");
-            return ERROR_COMPARE;
-        }
+        return HAVE_NAN_ROOT;
     }
 }
 
 double max(double x, double y)
 {
-    switch(compare_double(x, y))
+    if (compare_double(x, y) == HAVE_NAN_ROOT)
     {
-        case THE_NUMBERS_ARE_EQUAL :
+        int number_of_nan_roots = is_nan(x) + is_nan(y);
+        if (number_of_nan_roots == 2)
         {
             return x;
         }
-        case Y_IS_GREATER_THAN_X :
-        {
-            return y;
-        }
-        case X_IS_GREATER_THAN_Y :
+        if (is_nan(x))
         {
             return x;
         }
-        default :
+        return y;
+    }
+    else
+    {
+        if (compare_double(x, y) == THE_NUMBERS_ARE_EQUAL)
         {
-            printf("ERROR MAX");
-            return ERROR_MAX;
-            break;
+            return x;
         }
+        if (compare_double(x, y) == X_IS_GREATER_THAN_Y)
+        {
+            return x;
+        }
+        return y;
     }
 }
 
 double min(double x, double y)
 {
-    switch(compare_double(x, y))
+    if (compare_double(x, y) == HAVE_NAN_ROOT)
     {
-        case THE_NUMBERS_ARE_EQUAL :
-        {
-            return y;
-        }
-        case Y_IS_GREATER_THAN_X :
+        int number_of_nan_roots = is_nan(x) + is_nan(y);
+        if (number_of_nan_roots == 2)
         {
             return x;
         }
-        case X_IS_GREATER_THAN_Y :
+        if (is_nan(x))
         {
             return y;
         }
-        default :
+        return x;
+    }
+    else
+    {
+        if (compare_double(x, y) == THE_NUMBERS_ARE_EQUAL)
         {
-            printf("ERROR MIN");
-            return ERROR_MIN;
-            break;
+            return y;
         }
+        if (compare_double(x, y) == X_IS_GREATER_THAN_Y)
+        {
+            return y;
+        }
+        return x;
     }
 }
