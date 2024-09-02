@@ -5,16 +5,19 @@
 #include "solve_equation.h"
 #include "square_solver.h"
 #include "utilities.h"
+// TODO: Убрать лишние инклюды
 
 void solve_equation(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
 {
+    // TODO: Где ассерты
+    // TODO: Поехали отсупы
    if (compare_with_zero(coefficients->a) != INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {
-        square_solver(coefficients, roots);
+        square_solver(coefficients, roots); // TODO: переименовать
     }
     else
     {
-        linear_solver(coefficients, roots);
+        linear_solver(coefficients, roots); // TODO: переименовать
     }
 }
 
@@ -35,7 +38,7 @@ void square_solver(struct Equation_coefficients *coefficients, struct Equation_r
             roots->number_roots = ONE_ROOTS;
         }
     }
-    else // compare_with_zero(b) != 0
+    else // compare_with_zero(b) != 0 // TODO: напиши комментарии в одном стиле
     {
         if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD) //b != 0 && c == 0
         {
