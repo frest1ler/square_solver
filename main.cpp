@@ -1,7 +1,4 @@
 #include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include <assert.h>
 #include "square_solver.h"
 #include "utilities.h"
 #include "input_data.h"
@@ -16,9 +13,8 @@ int main()
     ui_unit_test();  // TODO: Убрать в отдельный файл со всеми printf'ами (взаимодействия с пользователями)
                      //       Например: ui_ask_for_tests()
 
-    struct Equation_coefficients coefficients = {NAN, NAN, NAN};
-    struct Equation_roots        roots        = {NAN, NAN, NO_ROOTS}; // TODO: у тебя есть функция для этого
-//  ~~~~~~ TODO: struct писать не обязательно для g++/clang++
+     Equation_coefficients coefficients = {NAN, NAN, NAN};
+     Equation_roots        roots        = {NAN, NAN, NO_ROOTS}; // TODO: у тебя есть функция для этого
     do
     {
         input_data(&coefficients);  // TODO: Убрать в файл, где находятся остальные
@@ -30,7 +26,7 @@ int main()
 
         printf("Would you like to do it again?");  // TODO: убрать в функцию make_choice() и перемеиновать ее
     }
-    while(make_choice() == YES); // TODO: убрать YES (весь enum)
+    while(make_choice());
     //    TODO: Переименовать
     return 0;
 }

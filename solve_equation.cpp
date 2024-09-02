@@ -1,27 +1,28 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
 #include <assert.h>
 #include "solve_equation.h"
 #include "square_solver.h"
 #include "utilities.h"
-// TODO: Убрать лишние инклюды
 
 void solve_equation(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
 {
-    // TODO: Где ассерты
-    // TODO: Поехали отсупы
-   if (compare_with_zero(coefficients->a) != INSIDE_THE_EPSILON_NEIGHBORHOOD)
+    assert(coefficients);
+    assert(roots);
+
+    assert(isfinite(coefficients->a));
+    assert(isfinite(coefficients->b));
+    assert(isfinite(coefficients->c));
+
+    if (compare_with_zero(coefficients->a) != INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {
-        square_solver(coefficients, roots); // TODO: переименовать
+        solve_square(coefficients, roots);
     }
     else
     {
-        linear_solver(coefficients, roots); // TODO: переименовать
+        solve_linear(coefficients, roots);
     }
 }
 
-void square_solver(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
+void solve_square(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
 {
     assert(roots);
     assert(coefficients);
@@ -38,7 +39,7 @@ void square_solver(struct Equation_coefficients *coefficients, struct Equation_r
             roots->number_roots = ONE_ROOTS;
         }
     }
-    else // compare_with_zero(b) != 0 // TODO: напиши комментарии в одном стиле
+    else // b != 0 //
     {
         if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD) //b != 0 && c == 0
         {
@@ -62,7 +63,7 @@ void square_solver(struct Equation_coefficients *coefficients, struct Equation_r
                 roots->x1 = -coefficients->b / (2 * coefficients->a);
             }
 
-            if (compare_with_zero(discriminant) == MORE_EPSILON)
+            if (compare_with_zero(discriminant) == MORE_THAN_EPSILON)
             {
                 roots->number_roots = TWO_ROOTS;
                 sqrt_discriminant = sqrt(discriminant);
@@ -73,7 +74,7 @@ void square_solver(struct Equation_coefficients *coefficients, struct Equation_r
     }
 }
 
-void linear_solver(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
+void solve_linear(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
 {
     assert(roots);
     assert(coefficients);
