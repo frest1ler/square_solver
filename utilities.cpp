@@ -3,7 +3,6 @@
 #include "utilities.h"
 #include "square_solver.h"
 
-
 int compare_with_zero(double x)    // comparing coeffs with zero
 {
     if (fabs(x) <  EPSILON)
@@ -27,12 +26,17 @@ void clear_buffer()
 	} while (clean != '\n' && clean != EOF);
 }
 
-int communication_with_user()
+void init_equation_roots(struct Equation_roots *roots)
+{
+    roots->x1 = NAN;
+    roots->x2 = NAN;
+    roots->number_roots = NO_ROOTS;
+}
+
+int make_choice()
 {
 
     int program_operation_mode = 0;
-
-    assert(&program_operation_mode);
 
     printf("enter y or n\n");
 
@@ -61,6 +65,7 @@ int is_nan(double x)
 int compare_double(double x, double y)
 {
     int number_of_nan_roots = is_nan(x) + is_nan(y);
+
     if (number_of_nan_roots == 0)
     {
         if (fabs(x-y) <  EPSILON)
@@ -79,19 +84,14 @@ int compare_double(double x, double y)
         {
             return THE_NUMBERS_ARE_EQUAL;
         }
-        return HAVE_NAN_ROOT;
+        return HAVE_ONE_NAN_ROOT;
     }
 }
 
 double max(double x, double y)
 {
-    if (compare_double(x, y) == HAVE_NAN_ROOT)
+    if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
     {
-        int number_of_nan_roots = is_nan(x) + is_nan(y);
-        if (number_of_nan_roots == 2)
-        {
-            return x;
-        }
         if (is_nan(x))
         {
             return x;
@@ -114,13 +114,8 @@ double max(double x, double y)
 
 double min(double x, double y)
 {
-    if (compare_double(x, y) == HAVE_NAN_ROOT)
+    if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
     {
-        int number_of_nan_roots = is_nan(x) + is_nan(y);
-        if (number_of_nan_roots == 2)
-        {
-            return x;
-        }
         if (is_nan(x))
         {
             return y;

@@ -4,7 +4,7 @@
 #include "output_data.h"
 #include "square_solver.h"
 
-void output_data(struct equation_roots *roots)
+void output_data(struct Equation_roots *roots)
 {
     assert(roots);
 

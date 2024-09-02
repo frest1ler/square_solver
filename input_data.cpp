@@ -5,7 +5,7 @@
 #include "input_data.h"
 #include "utilities.h"
 
-void input_data(struct equation_coefficients *coefficients)
+void input_data(struct Equation_coefficients *coefficients)
 {
     assert(coefficients);
 

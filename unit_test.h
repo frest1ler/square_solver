@@ -3,6 +3,7 @@
 
 #include "square_solver.h"
 
-void test(struct test_data *data_for_test, struct equation_roots *roots, int i);
+void test(struct Test_data *data_for_test, struct Equation_roots *roots);
 void unit_test();
+void ui_unit_test();
 #endif /*UNIT_TEST_H*/

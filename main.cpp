@@ -5,32 +5,28 @@
 #include "square_solver.h"
 #include "utilities.h"
 #include "input_data.h"
-#include "determine_roots.h"
+#include "solve_equation.h"
 #include "output_data.h"
 #include "unit_test.h"
 
-
 int main()
 {
-    printf("Do you want to run tests? ");
-    if (communication_with_user() == YES)
-    {
-        unit_test();
-    }
-    struct equation_coefficients coefficients = {NAN, NAN, NAN};
-    struct equation_roots        roots        = {NAN, NAN, 0};
+    ui_unit_test();
+
+    struct Equation_coefficients coefficients = {NAN, NAN, NAN};
+    struct Equation_roots        roots        = {NAN, NAN, NO_ROOTS};
 
     do
     {
         input_data(&coefficients);
 
-        determine_roots(&coefficients, &roots);
+        solve_equation(&coefficients, &roots);
 
         output_data(&roots);
 
         printf("Would you like to do it again?");
     }
-    while(communication_with_user() == YES);
+    while(make_choice() == YES);
 
     return 0;
 }
