@@ -6,17 +6,16 @@ int compare_with_zero(const double x)
 {
     if (fabs(x) < EPSILON)
     {
-        return INSIDE_THE_EPSILON_NEIGHBORHOOD;
+        return INSIDE_THE_EPSILON_NEIGHBORHOOD; // = 0
     }
     if (x  < -EPSILON)
     {
-        return LESS_THAN_EPSILON;
+        return LESS_THAN_EPSILON; // = -1
     }
-    return MORE_THAN_EPSILON;
+    return MORE_THAN_EPSILON; // = 1
 }
 
-// TODO: наверное, стоит поменять название
-int is_nan(const double x)
+int count_nan(const double x)
 {
     return (x != x);
 }
@@ -28,7 +27,7 @@ int is_nan(const double x)
 //       саму функцию compare_double() (в смысле в ее данном значении), переименовать
 int compare_double(const double x, const double y)
 {
-    int number_nan_roots = is_nan(x) + is_nan(y);
+    int number_nan_roots = count_nan(x) + count_nan(y);
 
     if (number_nan_roots == 0)
     {
@@ -36,7 +35,7 @@ int compare_double(const double x, const double y)
         {
             return NUMBERS_ARE_EQUAL;
         }
-        if (x - y  < 0) 
+        if (x - y  < 0)
         {
             return Y_IS_GREATER_THAN_X;
         }
@@ -57,7 +56,7 @@ double max(const double x, const double y)
 {
     if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
     {
-        if (is_nan(x))
+        if (count_nan(x))
         {
             return x;
         }
@@ -80,7 +79,7 @@ double min(const double x, const double y)
 {
     if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
     {
-        if (is_nan(x))
+        if (count_nan(x))
         {
             return y;
         }

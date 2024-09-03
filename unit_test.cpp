@@ -4,6 +4,8 @@
 #include "solve_equation.h"
 #include "comparing_numbers.h"
 
+int test(const Test_data *data_for_test, Equation_roots *roots);
+
 int unit_test()
 {
     Test_data data_for_test[] =
@@ -20,20 +22,16 @@ int unit_test()
 
     const int max_test_number = sizeof(data_for_test) / sizeof(data_for_test[0]);
 
+    int counting_errors = 0;
     for(int i = 0; i < max_test_number; i++)
     {
-        if (test(data_for_test + i, &roots)) // data_for_test[i] == *(data+i)
-        {
-            return 1;
-        }
-        // TODO: Если один тест не прошел, следующие тесты не выполняются, что, наверное, неправильно
+        counting_errors += test(data_for_test + i, &roots);
     }
-    return 0;
+    return counting_errors;
 }
 
 // TODO: переименуй
-int test(Test_data *data_for_test, Equation_roots *roots)
-// TODO: ^ Добавить const
+int test(const Test_data *data_for_test, Equation_roots *roots)
 // TODO: Переименуй data_for_test
 {
     assert(&data_for_test);
@@ -65,5 +63,5 @@ int test(Test_data *data_for_test, Equation_roots *roots)
            data_for_test->test_number, roots->x1, data_for_test->roots_expected.x1,
            roots->x2, data_for_test->roots_expected.x2,
            roots->roots_number, data_for_test->roots_expected.roots_number);
-           return 1; // TODO: для кого пустая строка (для TODO ментора)
+           return 1;
 }

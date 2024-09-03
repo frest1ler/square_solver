@@ -36,26 +36,22 @@ void display_output(const Equation_roots *roots)
     {
         case NO_ROOTS :
         {
-            printf("Nule roots\n"
-                   "Would you like to do it again?"); // TODO: убрать хуйню (копипасту)
+            printf("Nule roots\n");
             break;
         }
         case ONE_ROOT :
         {
-            printf("One roots x = %lg\n"
-                   "Would you like to do it again?", roots->x1); // TODO: убрать хуйню (копипасту)
+            printf("One roots x = %lg\n", roots->x1);
             break;
         }
         case TWO_ROOTS :
         {
-            printf("Two roots x1 = %lg, x2 = %lg\n"
-                   "Would you like to do it again?", roots->x1, roots->x2); // TODO: убрать хуйню (копипасту)
+            printf("Two roots x1 = %lg, x2 = %lg\n", roots->x1, roots->x2);
             break;
         }
         case INFINITY_ROOTS :
         {
-            printf("Infinitely many roots\n"
-                   "Would you like to do it again?"); // TODO: убрать хуйню (копипасту)
+            printf("Infinitely many roots\n");
             break;
         }
         default :
@@ -64,6 +60,7 @@ void display_output(const Equation_roots *roots)
             break;
         }
     }
+    print();
 }
 
 int ui_ask_for_tests()
@@ -76,8 +73,6 @@ int ui_ask_for_tests()
         {
             return 1;
         }
-        return 0;
-        // TODO: return unit_test()
     }
     return 0;
 }
@@ -95,4 +90,9 @@ int get_user_feedback()
 
     skip_buffer();
     return (symbol == 'y');
+}
+
+void print()
+{
+    printf("Would you like to do it again? ");
 }
