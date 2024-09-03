@@ -1,32 +1,26 @@
 #include <stdio.h>
 #include "square_solver.h"
 #include "utilities.h"
-#include "input_data.h"
 #include "solve_equation.h"
-#include "output_data.h"
+#include "user_interaction.h"
 #include "unit_test.h"
-
-// TODO: убрать лишние инклюды
+#include "comparing_numbers.h"
 
 int main()
 {
-    ui_unit_test();  // TODO: Убрать в отдельный файл со всеми printf'ами (взаимодействия с пользователями)
-                     //       Например: ui_ask_for_tests()
+    ui_ask_for_tests();
 
-     Equation_coefficients coefficients = {NAN, NAN, NAN};
-     Equation_roots        roots        = {NAN, NAN, NO_ROOTS}; // TODO: у тебя есть функция для этого
+     Equation_coefficients coefficients = {NAN, NAN,      NAN};
+     Equation_roots        roots        = {NAN, NAN, NO_ROOTS};
     do
     {
-        input_data(&coefficients);  // TODO: Убрать в файл, где находятся остальные
-                                    //       функции взаимодействия с пользователем
+        input_data(&coefficients);
 
         solve_equation(&coefficients, &roots);
 
         output_data(&roots);
-
-        printf("Would you like to do it again?");  // TODO: убрать в функцию make_choice() и перемеиновать ее
     }
-    while(make_choice());
-    //    TODO: Переименовать
+    while(get_user_feedback());
+
     return 0;
 }

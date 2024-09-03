@@ -2,6 +2,8 @@
 #include "solve_equation.h"
 #include "square_solver.h"
 #include "utilities.h"
+#include "user_interaction.h"
+#include "comparing_numbers.h"
 
 void solve_equation(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
 {

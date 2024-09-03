@@ -4,18 +4,9 @@
 #include "unit_test.h"
 #include "utilities.h"
 #include "solve_equation.h"
+#include "comparing_numbers.h"
 
-void ui_unit_test() // TODO: переименовать, убрать в отдельный файл
-{
-    printf("Do you want to run tests? ");
-    if (make_choice())
-    {
-        unit_test();
-    }
-    // TODO: если тесты не прошли, программа продолжает работать???
-}
-
-void unit_test()
+int unit_test()
 {
     Test_data data_for_test[] =
     {
@@ -32,11 +23,15 @@ void unit_test()
 
     for(int i = 0; i < max_test_number; i++)
     {
-        test(data_for_test + i, &roots); //data_for_test[i] == *(data+i)
+        if (test(data_for_test + i, &roots))           //data_for_test[i] == *(data+i)
+        {
+            return 1;
+        }
     }
+    return 0;
 }
 
-void test(Test_data *data_for_test, Equation_roots *roots)
+int test(Test_data *data_for_test, Equation_roots *roots)
 {
     assert(&data_for_test);
     assert(&roots);
@@ -54,14 +49,16 @@ void test(Test_data *data_for_test, Equation_roots *roots)
         roots->number_roots == data_for_test->roots_etalon.number_roots)
     {
         printf("%d TEST OK\n", data_for_test->number_test);
+
+        return 0;
     }
-    else
-    {
-        printf("\n%d TEST ERROR, got the results:\n\nx1=%lg; expected x1 = %lg\n"
-               "x2 = %lg; expected x2 = %lg\n"
-               "number_roots = %d; expected number_roots = %d\n\n",
-               data_for_test->number_test, roots->x1, data_for_test->roots_etalon.x1,
-               roots->x2, data_for_test->roots_etalon.x2,
-               roots->number_roots, data_for_test->roots_etalon.number_roots);
-    }
+    printf("\n%d TEST ERROR, got the results:\n\nx1=%lg; expected x1 = %lg\n"
+           "x2 = %lg; expected x2 = %lg\n"
+           "number_roots = %d; expected number_roots = %d\n\n",
+           data_for_test->number_test, roots->x1, data_for_test->roots_etalon.x1,
+           roots->x2, data_for_test->roots_etalon.x2,
+           roots->number_roots, data_for_test->roots_etalon.number_roots);
+
+           return 1;
+
 }
