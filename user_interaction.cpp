@@ -2,12 +2,9 @@
 #include <assert.h>
 #include "square_solver.h"
 #include "user_interaction.h"
-#include "utilities.h"
 #include "unit_test.h"
-// TODO: убрать лишние инклюды
-// TODO: файла utilities.h вообще нет в проекте
 
-void input_data(Equation_coefficients *coefficients)
+void get_input(Equation_coefficients *coefficients)
 {
     assert(coefficients);
 
@@ -23,8 +20,7 @@ void input_data(Equation_coefficients *coefficients)
 
 void skip_buffer()
 {
-    // TODO: почему здесь символ tab'a, когда в остальных местах пробел
-	int symbol = 0;
+    int symbol = 0;
 
 	do
 	{
@@ -32,23 +28,19 @@ void skip_buffer()
 	} while (symbol != '\n' && symbol != EOF);
 }
 
-void output_data(Equation_roots *roots)
-// TODO: ~~~~~~~^ добавить const
+void display_output(const Equation_roots *roots)
 {
     assert(roots);
 
-    switch (roots->number_roots)
+    switch (roots->roots_number)
     {
         case NO_ROOTS :
         {
             printf("Nule roots\n"
                    "Would you like to do it again?"); // TODO: убрать хуйню (копипасту)
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                               // TODO: для кого пустая строка
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             break;
         }
-        case ONE_ROOTS :
+        case ONE_ROOT :
         {
             printf("One roots x = %lg\n"
                    "Would you like to do it again?", roots->x1); // TODO: убрать хуйню (копипасту)
@@ -92,22 +84,15 @@ int ui_ask_for_tests()
 
 int get_user_feedback()
 {
-    // TODO: перенеси поближе к while
-    int symbol = 0;
-
     printf("enter y or n\n");
 
-    // TODO: почему здесь символ tab'a, когда в остальных местах пробел
+    int symbol = 0;
+
     while (symbol != 'y' && symbol != 'n')
 	{
         symbol = getchar();
 	}
 
     skip_buffer();
-    if (symbol == 'y')
-    {
-        return 1;
-    }
-    return 0;
-    // TODO: return symbol == 'y'
+    return (symbol == 'y');
 }

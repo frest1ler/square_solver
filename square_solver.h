@@ -8,11 +8,11 @@ struct Equation_coefficients
     double c;
 };
 
-enum Number_roots
+enum Roots_number
 {
     INFINITY_ROOTS = -1,
     NO_ROOTS       =  0,
-    ONE_ROOTS      =  1,
+    ONE_ROOT      =  1,
     TWO_ROOTS      =  2,
 };
 
@@ -20,8 +20,7 @@ struct Equation_roots
 {
     double x1;
     double x2;
-    Number_roots number_roots;
-    // TODO: либо везде number_of_..., либо ..._number
+    Roots_number roots_number;
 };
 
 enum Compare_constants
@@ -33,20 +32,16 @@ enum Compare_constants
 
 enum Compare_double_constants
 {
-    // TODO:            ~~ далековато
-    NUMBERS_ARE_EQUAL     =  0,
-    X_IS_GREATER_THAN_Y   =  1,
-    Y_IS_GREATER_THAN_X   = -1,
-    HAVE_ONE_NAN_ROOT     =  2,
+    NUMBERS_ARE_EQUAL   =  0,
+    X_IS_GREATER_THAN_Y =  1,
+    Y_IS_GREATER_THAN_X = -1,
+    HAVE_ONE_NAN_ROOT   =  2,
 };
 
 struct Test_data
 {
-//  ~~~~~~ TODO: убрать struct
-    struct Equation_coefficients coefficients;
-//  ~~~~~~ TODO: убрать struct
-    struct Equation_roots        roots_etalon; // TODO: не эталон, уже писал
-    int                          number_test;
-    // TODO: либо везде number_of_..., либо ..._number
+    Equation_coefficients coefficients;
+    Equation_roots        roots_expected;
+    int                   test_number;
 };
 #endif /*SQUARE_SOLVER_H*/

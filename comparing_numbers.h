@@ -6,11 +6,11 @@
 const double EPSILON = 1e-9;
 
 // TODO: смотри TODO для comparing_number.cpp
-double max(double x, double y);
-double min(double x, double y);
+double max(const double x, const double y);
+double min(const double x, const double y);
 
-int  is_nan(double x);
-int  compare_with_zero(double x);
-int  compare_double(double x, double y);
+int  is_nan(const double x);
+int  compare_with_zero(const double x);
+int  compare_double(const double x, const double y);
 
 #endif /*COMPARING_NUMBERS_H*/

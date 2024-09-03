@@ -1,18 +1,10 @@
-#include <stdio.h>
-#include <assert.h>
 #include "comparing_numbers.h"
 #include "square_solver.h"
-// TODO: убрать лишние инклюды
 
 // TODO: смотри TODO к функции compare_double()
-int compare_with_zero(double x)
-// TODO: ~~~~~~~~~~~~^ написать const
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                               // TODO: для кого пустая строка
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int compare_with_zero(const double x)
 {
-    if (fabs(x) <  EPSILON)
-// TODO: ~~~~~~~~~^ лишний пробел
+    if (fabs(x) < EPSILON)
     {
         return INSIDE_THE_EPSILON_NEIGHBORHOOD;
     }
@@ -24,15 +16,9 @@ int compare_with_zero(double x)
 }
 
 // TODO: наверное, стоит поменять название
-int is_nan(double x)
+int is_nan(const double x)
 {
-    if (x != x)
-    {
-        return 1;
-    }
-    return 0;
-
-    // TODO: иначе говоря return x != x
+    return (x != x);
 }
 
 // TODO: написать функцию сравнения даблов в общем случае
@@ -40,19 +26,17 @@ int is_nan(double x)
 //       передавая в качестве одного из аргументов 0
 //       в функции compare_double(), вызывать функцию сравнения в общем случае
 //       саму функцию compare_double() (в смысле в ее данном значении), переименовать
-int compare_double(double x, double y)
-// TODO: ~~~~~~~~~~^~~~~~~~~^ написать const
+int compare_double(const double x, const double y)
 {
     int number_nan_roots = is_nan(x) + is_nan(y);
 
     if (number_nan_roots == 0)
     {
-        if (fabs(x - y) <  EPSILON)
-// TODO: ~~~~~~~~~~~~~~~~~^ лишний пробел
+        if (fabs(x - y) < EPSILON)
         {
             return NUMBERS_ARE_EQUAL;
         }
-        if (x - y  < -EPSILON) // TODO: формально можно сравнивать не с -EPSILON, а с 0
+        if (x - y  < 0) 
         {
             return Y_IS_GREATER_THAN_X;
         }
@@ -69,9 +53,7 @@ int compare_double(double x, double y)
     }
 }
 
-// TODO: переименовать
-double max(double x, double y)
-// TODO: ~^~~~~~~~~^ написать const
+double max(const double x, const double y)
 {
     if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
     {
@@ -93,10 +75,8 @@ double max(double x, double y)
     }
 }
 
-// TODO: переименовать
 // TODO: что нибудь придумать с копипастой
-double min(double x, double y)
-// TODO: ~^~~~~~~~~^ написать const
+double min(const double x, const double y)
 {
     if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
     {
