@@ -5,6 +5,7 @@
 
 const double EPSILON = 1e-9;
 
+// TODO: смотри TODO для comparing_number.cpp
 double max(double x, double y);
 double min(double x, double y);
 

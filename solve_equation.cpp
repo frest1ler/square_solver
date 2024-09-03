@@ -4,6 +4,8 @@
 #include "utilities.h"
 #include "user_interaction.h"
 #include "comparing_numbers.h"
+// TODO: убрать лишние инклюды
+// TODO: файла utilities.h вообще нет в проекте
 
 void solve_equation(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
 {
@@ -13,7 +15,6 @@ void solve_equation(struct Equation_coefficients *coefficients, struct Equation_
     assert(isfinite(coefficients->a));
     assert(isfinite(coefficients->b));
     assert(isfinite(coefficients->c));
-
     if (compare_with_zero(coefficients->a) != INSIDE_THE_EPSILON_NEIGHBORHOOD)
     {
         solve_square(coefficients, roots);
@@ -24,7 +25,9 @@ void solve_equation(struct Equation_coefficients *coefficients, struct Equation_
     }
 }
 
+// TODO:          ~~~~~~                                      ~~~~~~ убрать struct
 void solve_square(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
+// TODO: ~~~~~~~~~^ добавить const
 {
     assert(roots);
     assert(coefficients);
@@ -38,7 +41,7 @@ void solve_square(struct Equation_coefficients *coefficients, struct Equation_ro
         if (compare_with_zero(coefficients->c) == INSIDE_THE_EPSILON_NEIGHBORHOOD)
         {
             roots->x1 = 0;
-            roots->number_roots = ONE_ROOTS;
+            roots->number_roots = ONE_ROOTS; // TODO: переименовать ONE_ROOT
         }
     }
     else // b != 0 //
@@ -51,10 +54,13 @@ void solve_square(struct Equation_coefficients *coefficients, struct Equation_ro
         }
         else // b != 0 && c != 0
         {
+            // TODO: C99 like (лучше перенеси sqrt_discriminant в if)
             double discriminant = NAN, sqrt_discriminant = NAN;
-
+            // TODO: добавить const 
+            // TODO: сразу инициализируй переменную
             discriminant = coefficients->b * coefficients->b - 4 * coefficients->a * coefficients->c;
 
+            // TODO: почему три разных if (используй else if)
             if (compare_with_zero(discriminant) == LESS_THAN_EPSILON)
             {
                 roots->number_roots = NO_ROOTS;
@@ -76,7 +82,9 @@ void solve_square(struct Equation_coefficients *coefficients, struct Equation_ro
     }
 }
 
+// TODO:          ~~~~~~                                      ~~~~~~ убрать struct
 void solve_linear(struct Equation_coefficients *coefficients, struct Equation_roots *roots)
+// TODO: ~~~~~~~~~^ добавить const
 {
     assert(roots);
     assert(coefficients);
