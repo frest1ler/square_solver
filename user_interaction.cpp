@@ -12,6 +12,7 @@ void get_input(Equation_coefficients *coefficients)
 
     printf("Hi, this program solves an equation of the form ax^2 + bx + c = 0\n"
            "enter a, b, c\n");
+
     while((scanf("%lg %lg %lg", &coefficients->a, &coefficients->b, &coefficients->c)) != 3)
     {
         skip_buffer();
@@ -73,13 +74,13 @@ int ui_ask_for_tests()
     {
         if (unit_test())
         {
-            return 1;
+            return 1;   //TODO bool func
         }
     }
     return 0;
 }
 
-int get_user_feedback()
+int get_user_feedback() //TODO bool
 {
     printf("enter y or n\n");
 

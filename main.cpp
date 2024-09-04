@@ -15,9 +15,9 @@ int main()
 
         solve_equation(&coefficients, &roots);
 
-        display_output(&roots);
+        display_output(&roots); //TODO rename
     }
-    while(get_user_feedback());
+    while(get_user_feedback()); //TODO rename feedback - отзыв о работе
 
     return 0;
 }

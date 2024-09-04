@@ -7,6 +7,7 @@ int compare_double(const double x, const double y)
     {
         return NUMBERS_ARE_EQUAL;
     }
+
     if (x - y  < 0)
     {
         return Y_IS_GREATER_THAN_X;
@@ -19,7 +20,7 @@ int count_nan(const double x)
     return (x != x);
 }
 
-int compare_double_complex(const double x, const double y)
+int compare_double_complex(const double x, const double y)  //TODO  rename
 {
     int number_nan_roots = count_nan(x) + count_nan(y);
 
@@ -37,7 +38,7 @@ int compare_double_complex(const double x, const double y)
     }
 }
 
-double max(const double x, const double y)
+double max(const double x, const double y)  //TODO переделать ф-цию
 {
     if (compare_double_complex(x, y) == HAVE_ONE_NAN_ROOT)
     {
@@ -59,7 +60,7 @@ double max(const double x, const double y)
 
 double min(const double x, const double y)
 {
-    if (compare_double_complex(max(x, y), x) == 0)
+    if (compare_double_complex(max(x, y), x) == 0)  //TODO 0
     {
         return y;
     }

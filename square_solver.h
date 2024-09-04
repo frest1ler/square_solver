@@ -28,7 +28,7 @@ enum Compare_double_constants
     NUMBERS_ARE_EQUAL   =  0,
     X_IS_GREATER_THAN_Y =  1,
     Y_IS_GREATER_THAN_X = -1,
-    HAVE_ONE_NAN_ROOT   =  2,
+    HAVE_ONE_NAN_ROOT   =  2
 };
 
 struct Test_data
@@ -38,8 +38,8 @@ struct Test_data
     int                   test_number;
 };
 
-void solve_equation(const Equation_coefficients *coefficients, Equation_roots *roots);
-void solve_square(  const Equation_coefficients *coefficients, Equation_roots *roots);
-void solve_linear(  const Equation_coefficients *coefficients, Equation_roots *roots);
+void solve_equation( const Equation_coefficients *coefficients, Equation_roots *roots);
+void solve_square(   const Equation_coefficients *coefficients, Equation_roots *roots);
+void solve_linear(   const Equation_coefficients *coefficients, Equation_roots *roots);
 
 #endif /*SQUARE_SOLVER_H*/

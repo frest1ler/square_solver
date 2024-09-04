@@ -39,7 +39,7 @@ static int inspect_equation(const Test_data *check_the_roots, Equation_roots *ro
     solve_equation(&check_the_roots->coefficients, roots);
 
     const double min_root = min(roots->x1, roots->x2);
-    const double max_root = max(roots->x1, roots->x2);
+    const double max_root = max(roots->x1, roots->x2);  //TODO reference and expected
     const double min_root_reference = min(check_the_roots->roots_expected.x1, check_the_roots->roots_expected.x2);
     const double max_root_reference = max(check_the_roots->roots_expected.x1, check_the_roots->roots_expected.x2);
 
