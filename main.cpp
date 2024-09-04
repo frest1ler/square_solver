@@ -1,5 +1,4 @@
 #include "square_solver.h"
-#include "solve_equation.h"
 #include "user_interaction.h"
 #include "comparing_numbers.h"
 

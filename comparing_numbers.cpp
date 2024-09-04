@@ -1,18 +1,17 @@
 #include "comparing_numbers.h"
 #include "square_solver.h"
 
-// TODO: смотри TODO к функции compare_double()
-int compare_with_zero(const double x)
+int compare_double(const double x, const double y)
 {
-    if (fabs(x) < EPSILON)
+    if (fabs(x - y) < EPSILON)
     {
-        return INSIDE_THE_EPSILON_NEIGHBORHOOD; // = 0
+        return NUMBERS_ARE_EQUAL;
     }
-    if (x  < -EPSILON)
+    if (x - y  < 0)
     {
-        return LESS_THAN_EPSILON; // = -1
+        return Y_IS_GREATER_THAN_X;
     }
-    return MORE_THAN_EPSILON; // = 1
+    return X_IS_GREATER_THAN_Y;
 }
 
 int count_nan(const double x)
@@ -20,27 +19,13 @@ int count_nan(const double x)
     return (x != x);
 }
 
-// TODO: написать функцию сравнения даблов в общем случае
-//       в функции compare_with_zero() вызывать эту функцию,
-//       передавая в качестве одного из аргументов 0
-//       в функции compare_double(), вызывать функцию сравнения в общем случае
-//       саму функцию compare_double() (в смысле в ее данном значении), переименовать
-int compare_double(const double x, const double y)
+int compare_double_complex(const double x, const double y)
 {
     int number_nan_roots = count_nan(x) + count_nan(y);
 
     if (number_nan_roots == 0)
     {
-        if (fabs(x - y) < EPSILON)
-        {
-            return NUMBERS_ARE_EQUAL;
-        }
-        if (x - y  < 0)
-        {
-            return Y_IS_GREATER_THAN_X;
-        }
-        return X_IS_GREATER_THAN_Y;
-    // TODO: 6457913675462376542376492734 COPYPASTE
+        return compare_double(x, y);
     }
     else // have a nan roots
     {
@@ -54,7 +39,7 @@ int compare_double(const double x, const double y)
 
 double max(const double x, const double y)
 {
-    if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
+    if (compare_double_complex(x, y) == HAVE_ONE_NAN_ROOT)
     {
         if (count_nan(x))
         {
@@ -64,34 +49,20 @@ double max(const double x, const double y)
     }
     else
     {
-        // TODO:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Лишняя проверка на равенство,
-        //                                            так как если x = y без разницы, что возвращать
-        if (compare_double(x, y) == NUMBERS_ARE_EQUAL || compare_double(x, y) == X_IS_GREATER_THAN_Y)
+        if (compare_double_complex(x, y) == Y_IS_GREATER_THAN_X)
         {
-            return x;
+            return y;
         }
-        return y;
+        return x;
     }
 }
 
-// TODO: что нибудь придумать с копипастой
 double min(const double x, const double y)
 {
-    if (compare_double(x, y) == HAVE_ONE_NAN_ROOT)
+    if (compare_double_complex(max(x, y), x) == 0)
     {
-        if (count_nan(x))
-        {
-            return y;
-        }
-        return x;
+        return y;
     }
-    else
-    {
-        // TODO:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Лишняя проверка на равенство
-        if (compare_double(x, y) == NUMBERS_ARE_EQUAL || compare_double(x, y) == X_IS_GREATER_THAN_Y)
-        {
-            return y;
-        }
-        return x;
-    }
+    return x;
 }
+

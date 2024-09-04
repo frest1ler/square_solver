@@ -4,6 +4,8 @@
 #include "user_interaction.h"
 #include "unit_test.h"
 
+static void print();
+
 void get_input(Equation_coefficients *coefficients)
 {
     assert(coefficients);
@@ -92,7 +94,7 @@ int get_user_feedback()
     return (symbol == 'y');
 }
 
-void print()
+static void print()
 {
     printf("Would you like to do it again? ");
 }

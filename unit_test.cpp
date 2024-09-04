@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <assert.h>
 #include "unit_test.h"
-#include "solve_equation.h"
+#include "square_solver.h"
 #include "comparing_numbers.h"
 
-int test(const Test_data *data_for_test, Equation_roots *roots);
+static int inspect_equation(const Test_data *data_for_test, Equation_roots *roots);
 
 int unit_test()
 {
@@ -17,51 +17,44 @@ int unit_test()
         {{0,  0, 0}, {NAN, NAN, INFINITY_ROOTS}, 4}
     };
 
-    Equation_roots roots = {NAN, NAN, NO_ROOTS}; // TODO: в этой функции не используется roots,
-                                                 //       перенеси в test()
+    Equation_roots roots = {NAN, NAN, NO_ROOTS};
 
     const int max_test_number = sizeof(data_for_test) / sizeof(data_for_test[0]);
 
     int counting_errors = 0;
     for(int i = 0; i < max_test_number; i++)
     {
-        counting_errors += test(data_for_test + i, &roots);
+        counting_errors += inspect_equation(data_for_test + i, &roots);
     }
     return counting_errors;
 }
 
-// TODO: переименуй
-int test(const Test_data *data_for_test, Equation_roots *roots)
-// TODO: Переименуй data_for_test
+static int inspect_equation(const Test_data *check_the_roots, Equation_roots *roots)
 {
-    assert(&data_for_test);
+    assert(&check_the_roots);
     assert(&roots);
 
-    roots->x1 = NAN;
-    roots->x2 = NAN;
-    roots->roots_number = NO_ROOTS;
-    // TODO: это можно записать так:
-    // *roots = (Equation_roots) {NAN, NAN, NO_ROOTS};
+    *roots = (Equation_roots) {NAN, NAN, NO_ROOTS};
 
-    solve_equation(&data_for_test->coefficients, roots);
+    solve_equation(&check_the_roots->coefficients, roots);
 
     const double min_root = min(roots->x1, roots->x2);
     const double max_root = max(roots->x1, roots->x2);
-    const double min_root_reference = min(data_for_test->roots_expected.x1, data_for_test->roots_expected.x2);
-    const double max_root_reference = max(data_for_test->roots_expected.x1, data_for_test->roots_expected.x2);
+    const double min_root_reference = min(check_the_roots->roots_expected.x1, check_the_roots->roots_expected.x2);
+    const double max_root_reference = max(check_the_roots->roots_expected.x1, check_the_roots->roots_expected.x2);
 
-    if (compare_double(min_root, min_root_reference) == INSIDE_THE_EPSILON_NEIGHBORHOOD &&
-        compare_double(max_root, max_root_reference) == INSIDE_THE_EPSILON_NEIGHBORHOOD &&
-        roots->roots_number == data_for_test->roots_expected.roots_number)
+    if (compare_double_complex(min_root, min_root_reference) == NUMBERS_ARE_EQUAL &&
+        compare_double_complex(max_root, max_root_reference) == NUMBERS_ARE_EQUAL &&
+        roots->roots_number == check_the_roots->roots_expected.roots_number)
     {
-        printf("%d TEST OK\n", data_for_test->test_number);
+        printf("%d TEST OK\n", check_the_roots->test_number);
         return 0;
     }
     printf("\n%d TEST ERROR, got the results:\n\nx1=%lg; expected x1 = %lg\n"
            "x2 = %lg; expected x2 = %lg\n"
            "number_roots = %d; expected number_roots = %d\n\n",
-           data_for_test->test_number, roots->x1, data_for_test->roots_expected.x1,
-           roots->x2, data_for_test->roots_expected.x2,
-           roots->roots_number, data_for_test->roots_expected.roots_number);
+           check_the_roots->test_number, roots->x1, check_the_roots->roots_expected.x1,
+           roots->x2, check_the_roots->roots_expected.x2,
+           roots->roots_number, check_the_roots->roots_expected.roots_number);
            return 1;
 }
